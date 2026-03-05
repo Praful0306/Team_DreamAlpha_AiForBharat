@@ -98,7 +98,7 @@ export function ChatBot({ language, studentProfile }: ChatBotProps) {
         if (isOpen && messages.length === 0) {
             // Force English translation for Chatbot Welcome as requested
             const enTranslations = translations['en'];
-            const welcomeText = enTranslations.chatbotWelcome?.replace('{name}', studentProfile?.name || '') || `Hi ${studentProfile?.name || ''}! I am here to help you solve your learning problems.`;
+            const welcomeText = enTranslations.chatbotWelcome?.replace('{name}', studentProfile?.name || '') || `Hello, ${studentProfile?.name || ''}! I am here to help you understand any concept clearly.`;
             setMessages([{
                 id: 'welcome',
                 role: 'ai',

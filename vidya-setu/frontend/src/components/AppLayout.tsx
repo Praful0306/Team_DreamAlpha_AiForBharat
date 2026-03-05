@@ -31,12 +31,16 @@ export function AppLayout({ children, language, setLanguage, studentProfile, onE
 
                 <div className="topbar-right-group">
                     {studentProfile && (
-                        <div className="topbar-middle topbar-profile-info">
-                            <div className="status-indicator"></div>
-                            <span className="operator-label">OPERATOR:</span>
-                            <span className="operator-name">{studentProfile.name.toLowerCase()}</span>
-                            <span className="operator-separator">/</span>
-                            <span className="operator-role">{studentProfile.grade}</span>
+                        <div className="topbar-middle topbar-profile-info" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div className="status-indicator"></div>
+                                <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.95rem' }}>
+                                    Hello, <span style={{ background: 'linear-gradient(135deg, #00f0ff, #b400ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{studentProfile.name}</span>! 👋
+                                </span>
+                            </div>
+                            <span style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', paddingLeft: '18px' }}>
+                                I can help you learn anything · {studentProfile.grade}
+                            </span>
                         </div>
                     )}
 

@@ -19,6 +19,9 @@ import type { Language } from "./translations";
 import { AuthPage } from "./pages/AuthPage";
 import { OTPPage } from "./pages/OTPPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { SettingsPage } from "./pages/SettingsPage";
+import { PricingPage } from "./pages/PricingPage";
+import { ChartsPage } from "./pages/ChartsPage";
 
 export interface TestResult {
   moduleId: number;
@@ -386,6 +389,24 @@ function App() {
               <Route path="/analytics" element={
                 <main className="auth-page">
                   <Analytics t={t} completedModules={completedModules} testResults={testResults} />
+                </main>
+              } />
+
+              <Route path="/charts" element={
+                <main className="auth-page">
+                  <ChartsPage testResults={testResults} completedModules={completedModules} t={t} studentProfile={studentProfile} language={language} subject={subject} />
+                </main>
+              } />
+
+              <Route path="/settings" element={
+                <main className="auth-page">
+                  <SettingsPage t={t} studentProfile={studentProfile} onSaveProfile={handleSaveProfile} />
+                </main>
+              } />
+
+              <Route path="/pricing" element={
+                <main className="auth-page">
+                  <PricingPage t={t} />
                 </main>
               } />
             </Routes>

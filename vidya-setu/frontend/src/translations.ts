@@ -47,7 +47,7 @@ export const translations = {
         systemLoad: "System Load",
         neuralCapacity: "NEURAL_CAPACITY",
         myStudyTasks: "My Study Tasks",
-        chatbotWelcome: "Hi {name}! I am here to help you solve your learning problems. What subject are we tackling today?",
+        chatbotWelcome: "Hello, {name}! I am here to help you understand any concept clearly. What would you like to learn today?",
 
         // Dashboard Navigation (Sidebar)
         dashboard: "Dashboard",

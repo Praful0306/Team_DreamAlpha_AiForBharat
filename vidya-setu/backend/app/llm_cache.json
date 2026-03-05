@@ -16,5 +16,34 @@
     "mermaid_diagram": "graph TD\n  A[Data Structures] ---> B[Arrays]\n  A ---> C[Lists]\n  A ---> D[Dictionaries]\n  A ---> E[Files]\n  B ---> F[Indices]\n  C ---> G[Order]",
     "quiz_question": "What is the primary purpose of using a dictionary in data structures?",
     "quiz_answer": "A dictionary is used to store data in key-value pairs, allowing for efficient lookups and modifications."
+  },
+  "fc2b6ceb63ac6040b927f9ebd00c4c1e": {
+    "modules": [
+      {
+        "id": 1,
+        "title": "Introduction to Java Fundamentals",
+        "description": "Understanding the basics of Java programming, including variables, data types, operators, control structures, and functions."
+      },
+      {
+        "id": 2,
+        "title": "Object-Oriented Programming in Java",
+        "description": "Learning the concepts of encapsulation, inheritance, polymorphism, and abstraction in Java, along with classes, objects, and methods."
+      },
+      {
+        "id": 3,
+        "title": "Java Syntax and Control Structures",
+        "description": "Mastering the syntax of Java, including loops (for, while, do-while), conditional statements (if-else, switch), and exception handling."
+      },
+      {
+        "id": 4,
+        "title": "Java File Input/Output and Exception Handling",
+        "description": "Understanding how to read and write files in Java, along with handling exceptions and errors in a Java program."
+      },
+      {
+        "id": 5,
+        "title": "Java Advanced Topics and Project Development",
+        "description": "Learning advanced Java concepts, such as multithreading, networking, and GUI programming, while developing a project to apply learned skills."
+      }
+    ]
   }
 }
