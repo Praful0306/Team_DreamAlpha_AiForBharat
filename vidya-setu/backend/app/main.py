@@ -46,6 +46,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the Vidya-Setu API Knowledge Engine!", "status": "active"}
+
 # ── Allow the React frontend to call this backend ─────────────────────────────
 # CORS = Cross-Origin Resource Sharing. Without this, the browser will block
 # the frontend from talking to the backend.
