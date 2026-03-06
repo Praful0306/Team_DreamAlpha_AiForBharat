@@ -541,34 +541,40 @@ export function StudentDashboard({ subject, modules, completedModules, testResul
                         </div>
                     )}
                     {tasks.map(task => (
-                        <div key={task.id} className={`task-item ${task.completed ? 'completed' : ''}`} style={{ position: 'relative', group: 'true' } as React.CSSProperties}>
-                            <button
-                                className={`task-checkbox ${task.completed ? 'checked' : ''}`}
-                                onClick={() => handleToggleTask(task.id)}
-                                title={task.completed ? 'Mark incomplete' : 'Mark complete'}
-                                style={{ cursor: 'pointer', flexShrink: 0 }}
-                            >
-                                {task.completed && (
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                )}
-                            </button>
-                            <div className="task-content" style={{ flex: 1, minWidth: 0 }}>
-                                <h4 style={{ textDecoration: task.completed ? 'line-through' : 'none', opacity: task.completed ? 0.5 : 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{task.text}</h4>
-                                {!task.completed && task.createdAt && (
-                                    <span className="task-tag" style={{ background: 'rgba(0,240,255,0.08)', border: '1px solid rgba(0,240,255,0.15)', color: 'var(--cyan)', fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px' }}>
-                                        📅 {task.createdAt}
-                                    </span>
-                                )}
+                        <div key={task.id} className={`task-item ${task.completed ? 'completed' : ''}`}>
+                            <div className="task-top">
+                                <div className="task-content">
+                                    <h4>{task.text}</h4>
+                                    {!task.completed && task.createdAt && (
+                                        <div style={{ marginTop: '8px' }}>
+                                            <span className="task-tag" style={{ background: 'rgba(0,240,255,0.08)', border: '1px solid rgba(0,240,255,0.15)', color: 'var(--cyan)', fontSize: '0.7rem', padding: '4px 8px', borderRadius: '6px', fontWeight: 600 }}>
+                                                📅 {task.createdAt}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <button
-                                onClick={() => handleDeleteTask(task.id)}
-                                title="Delete task"
-                                style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '4px', borderRadius: '4px', opacity: 0.5, transition: 'opacity 0.2s', flexShrink: 0 }}
-                                onMouseOver={e => e.currentTarget.style.opacity = '1'}
-                                onMouseOut={e => e.currentTarget.style.opacity = '0.5'}
-                            >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4h6v2" /></svg>
-                            </button>
+
+                            <div className="task-actions">
+                                <button
+                                    className="task-btn task-btn-complete"
+                                    onClick={() => handleToggleTask(task.id)}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        {task.completed ? <path d="M20 6L9 17l-5-5" /> : <circle cx="12" cy="12" r="10" />}
+                                    </svg>
+                                    {task.completed ? "Undo" : "Complete"}
+                                </button>
+                                <button
+                                    className="task-btn task-btn-delete"
+                                    onClick={() => handleDeleteTask(task.id)}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
