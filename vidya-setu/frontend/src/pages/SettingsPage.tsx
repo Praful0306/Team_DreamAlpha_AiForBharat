@@ -76,47 +76,58 @@ export function SettingsPage({ studentProfile, onSaveProfile }: SettingsPageProp
                 </nav>
 
                 {/* Content */}
-                <div style={{ background: 'rgba(15,23,42,0.5)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '40px', minHeight: '500px' }}>
+                <div style={{ background: 'rgba(15,23,42,0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '24px', padding: '40px', minHeight: '500px', boxShadow: '0 20px 50px rgba(0,0,0,0.3)' }}>
                     {/* Profile */}
                     {activeSection === 'profile' && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                            <div>
-                                <h2 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 700, margin: '0 0 6px 0' }}>Profile Settings</h2>
-                                <p style={{ color: '#64748b', margin: 0 }}>Update your personal information.</p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', animation: 'fadeIn 0.5s ease-out' }}>
+                            <div style={{ borderLeft: '4px solid var(--cyan)', paddingLeft: '20px' }}>
+                                <h2 style={{ color: '#fff', fontSize: '1.75rem', fontWeight: 800, margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>Profile Settings</h2>
+                                <p style={{ color: '#94a3b8', margin: 0, fontSize: '1rem' }}>Manage your personal identity and learning preferences.</p>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                                <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--cyan), var(--magenta))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 800, color: '#fff', boxShadow: '0 0 20px rgba(0,240,255,0.3)' }}>
-                                    {name ? name[0].toUpperCase() : '?'}
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '32px', background: 'rgba(255,255,255,0.03)', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                <div style={{ position: 'relative' }}>
+                                    <div style={{ width: '90px', height: '90px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--cyan), var(--magenta))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: 800, color: '#fff', boxShadow: '0 0 30px rgba(0,240,255,0.2)', position: 'relative', zIndex: 2 }}>
+                                        {name ? name[0].toUpperCase() : '?'}
+                                    </div>
+                                    <div style={{ position: 'absolute', inset: '-5px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--cyan), var(--magenta))', opacity: 0.3, filter: 'blur(8px)', zIndex: 1, animation: 'pulseGlow 3s infinite' }}></div>
                                 </div>
                                 <div>
-                                    <p style={{ color: '#fff', fontWeight: 700, margin: '0 0 4px 0', fontSize: '1.25rem' }}>{name || 'Not Set'}</p>
-                                    <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.9rem' }}>{grade || 'N/A'} • Age {age || 'N/A'}</p>
+                                    <p style={{ color: '#fff', fontWeight: 800, margin: '0 0 6px 0', fontSize: '1.5rem', letterSpacing: '-0.5px' }}>{name || 'Student Name'}</p>
+                                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                                        <span style={{ padding: '2px 8px', background: 'rgba(0,240,255,0.1)', color: 'var(--cyan)', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{grade || 'Grade Not Set'}</span>
+                                        <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#475569' }}></span>
+                                        <span style={{ color: '#94a3b8', fontSize: '0.9rem', fontWeight: 500 }}>Age {age || '—'}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                                <div style={{ gridColumn: '1 / -1' }}>
-                                    <label style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '8px' }}>Full Name</label>
-                                    <input style={inputStyle} value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name"
-                                        onFocus={e => e.currentTarget.style.borderColor = 'rgba(0,240,255,0.4)'} onBlur={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'} />
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                                <div style={{ gridColumn: '1 / -1' }} className="modal-field">
+                                    <label className="modal-label">Full Name</label>
+                                    <input className="modal-input" value={name} onChange={e => setName(e.target.value)} placeholder="Enter your full name" />
                                 </div>
-                                <div>
-                                    <label style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '8px' }}>Age</label>
-                                    <input style={inputStyle} value={age} onChange={e => setAge(e.target.value)} placeholder="Your age" type="number"
-                                        onFocus={e => e.currentTarget.style.borderColor = 'rgba(0,240,255,0.4)'} onBlur={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'} />
+                                <div className="modal-field">
+                                    <label className="modal-label">Age</label>
+                                    <input className="modal-input" value={age} onChange={e => setAge(e.target.value)} placeholder="Your age" type="number" />
                                 </div>
-                                <div>
-                                    <label style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '8px' }}>Grade / Level</label>
-                                    <select style={{ ...inputStyle, cursor: 'pointer' }} value={grade} onChange={e => setGrade(e.target.value)}>
+                                <div className="modal-field">
+                                    <label className="modal-label">Grade / Level</label>
+                                    <select className="modal-input" value={grade} onChange={e => setGrade(e.target.value)} style={{ cursor: 'pointer' }}>
                                         <option value="" disabled>Select grade</option>
                                         {['Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12', 'College Degree', 'Post Graduate', 'Professional'].map(g => (
-                                            <option key={g} value={g} style={{ background: '#1e293b' }}>{g}</option>
+                                            <option key={g} value={g} style={{ background: '#0f172a', color: '#fff' }}>{g}</option>
                                         ))}
                                     </select>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-                                <button onClick={handleSave} style={{ background: saved ? '#00ffaa' : 'var(--cyan)', color: '#0f172a', border: 'none', borderRadius: '10px', padding: '12px 24px', fontWeight: 800, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.3s', boxShadow: '0 0 15px rgba(0,240,255,0.3)' }}>
-                                    {saved ? '✓ Saved!' : 'Save Changes'}
+
+                            <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
+                                <button onClick={handleSave} className="modal-submit-btn" style={{ flex: 1, height: '56px', fontSize: '1.1rem' }}>
+                                    {saved ? '✓ Profile Updated' : 'Save Changes'}
+                                </button>
+                                <button onClick={() => navigate(-1)} style={{ padding: '0 32px', height: '56px', background: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.3s' }} onMouseOver={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#94a3b8'; }}>
+                                    Cancel
                                 </button>
                             </div>
                         </div>

@@ -8,16 +8,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = os.getenv("MODULE_GROQ_API_KEY")
 GROQ_MODEL = "llama-3.1-8b-instant"
 
 # Load fallback API keys from environment variable (comma-separated string)
-fallback_keys_str = os.getenv("FALLBACK_GROQ_KEYS", "")
+fallback_keys_str = os.getenv("MODULE_FALLBACK_GROQ_KEYS", "")
 API_KEYS = [k.strip() for k in fallback_keys_str.split(",") if k.strip()]
 
 # If no fallback keys are provided in .env, just use the primary key
-if not API_KEYS and os.getenv("GROQ_API_KEY"):
-    API_KEYS = [os.getenv("GROQ_API_KEY")]
+if not API_KEYS and os.getenv("MODULE_GROQ_API_KEY") and os.getenv("MODULE_GROQ_API_KEY") != "your_module_key_here":
+    API_KEYS = [os.getenv("MODULE_GROQ_API_KEY")]
 
 CACHE_FILE = os.path.join(os.path.dirname(__file__), "llm_cache.json")
 
@@ -186,36 +186,46 @@ Reply ONLY with valid JSON:
     )
 
 
-def generate_quiz(module_title: str, subject: str, student_name: str, student_age: int, student_grade: str, previous_questions: list = None) -> dict:
+def generate_quiz(module_id: int, module_title: str, subject: str, student_name: str, student_age: int, student_grade: str, previous_questions: list = None) -> dict:
     """
-    Generates a full test with 6 questions: 2 basic, 2 intermediate, 2 advanced (including 1-2 code questions).
-    previous_questions: list of question strings to avoid repeating.
-    Returns: { "questions": [ { "id", "type", "difficulty", "question", "options"(optional), "correct_answer", "explanation" } ] }
+    Generates a full test with 3 questions.
+    Difficulty scales based on module_id:
+    - Module 1: Baseline is Easy/Basic.
+    - Module 2: Baseline is Intermediate.
+    - Module 3+: Baseline is Advanced.
     """
     age_str = str(student_age) if student_age else "10"
     prev_q_text = ""
     if previous_questions:
         prev_q_text = f"\nDo NOT repeat or closely resemble these previously asked questions:\n" + "\n".join(f"- {q}" for q in previous_questions)
 
+    # Calculate difficulty focus based on module index (1-based)
+    if module_id == 1:
+        diff_focus = "Focus on VERY BASIC and easy concepts. This is the first module, so keep it extremely encouraging and simple."
+    elif module_id == 2:
+        diff_focus = "Focus on INTERMEDIATE concepts. This is the second module, so slightly increase the depth and application."
+    else:
+        diff_focus = f"Focus on ADVANCED concepts. This is module {module_id}, so provide deeper challenges and more complex scenarios."
+
     prompt = f"""You are Vidya-Setu, an expert AI tutor. Generate a test for:
 Student: {student_name} (Age {age_str}, Grade: {student_grade})
-Topic: {module_title} (part of {subject})
-{prev_q_text}
+Subject: {subject}
+Topic: {module_title} ONLY (CRITICAL: Do not ask questions from other topics)
+Module Sequence: This is Module #{module_id}.
+Difficulty Multiplier: {diff_focus}
 
 Create EXACTLY 3 neat questions in this order:
-1. Basic — a simple and clear conceptual question (can be short_answer or mcq).
-2. Intermediate — requires understanding and application of the concept (short_answer or mcq).
-3. Advanced — a coding/programming question OR a complex scenario. If asking for program output or code, ensure it is formatted very neatly.
+1. Basic — a simple conceptual question matching the Difficulty Multiplier.
+2. Intermediate — requires understanding and application of the {module_title} concept.
+3. Advanced — a coding/programming question OR a deep scenario related to {module_title}.
 
 Rules:
-- ALL questions in plain English only
+- CRITICAL: EVERY question must be strictly related to "{module_title}".
 - MCQ must have exactly 4 options labeled A, B, C, D
 - Short-answer questions have no options (set to null)
-- CRITICAL: "type" MUST be exactly strictly "mcq" or "short_answer". For code/programming questions, ALWAYS use "short_answer", do NEVER use "code" or "programming" as the type.
-- For code questions, ask the student to write code or explain what a beautifully formatted code snippet does
-- Each question must have a clear correct_answer and a brief explanation of WHY it is correct
-- CRITICAL: "correct_answer" MUST ALWAYS be a single plain text string, NO dictionaries, NO nested JSON objects. For code, just provide the expected code snippet as a single string.
-- Questions MUST progress sequentially from basic to advanced
+- type MUST be exactly "mcq" or "short_answer". 
+- Each question must have a clear correct_answer and a brief explanation.
+- Difficulty MUST scale within the set of 3 questions (basic -> intermediate -> advanced), but the "baseline" is set by the Difficulty Multiplier for this module.
 
 Reply ONLY with valid JSON:
 {{
@@ -237,6 +247,15 @@ Reply ONLY with valid JSON:
       "options": null,
       "correct_answer": "The expected answer",
       "explanation": "Why this is the correct answer..."
+    }},
+    {{
+      "id": 3,
+      "type": "short_answer",
+      "difficulty": "advanced",
+      "question": "Advanced question text",
+      "options": null,
+      "correct_answer": "The expected answer",
+      "explanation": "Explanation..."
     }}
   ]
 }}"""

@@ -45,5 +45,65 @@
         "description": "Learning advanced Java concepts, such as multithreading, networking, and GUI programming, while developing a project to apply learned skills."
       }
     ]
+  },
+  "8c9fdb8c3547dc9aa419e39f86725e27": {
+    "modules": [
+      {
+        "id": 1,
+        "title": "Gravity Basics",
+        "description": "Understanding what gravity is, its effects on objects, and the concept of weight."
+      },
+      {
+        "id": 2,
+        "title": "Gravity Forces",
+        "description": "Exploring the types of forces involved in gravity, such as gravitational force and normal force."
+      },
+      {
+        "id": 3,
+        "title": "Gravity in Everyday Life",
+        "description": "Applying gravity concepts to real-life situations, such as falling objects and planetary motion."
+      },
+      {
+        "id": 4,
+        "title": "Gravity and Motion",
+        "description": "Analyzing the relationship between gravity and motion, including free fall and projectile motion."
+      }
+    ]
+  },
+  "7d1603ad066d2025782aa1446c680ee7": {
+    "modules": [
+      {
+        "id": 1,
+        "title": "Introduction to Neural Networks",
+        "description": "Understanding the basics of neural networks, their components, and how they work."
+      },
+      {
+        "id": 2,
+        "title": "Neural Network Architecture",
+        "description": "Learning about different types of neural networks, layers, and activation functions."
+      },
+      {
+        "id": 3,
+        "title": "Training and Optimization",
+        "description": "Understanding how neural networks are trained, loss functions, and optimization algorithms."
+      },
+      {
+        "id": 4,
+        "title": "Applications and Real-World Examples",
+        "description": "Exploring the practical uses of neural networks in image recognition, natural language processing, and more."
+      }
+    ]
+  },
+  "3db9e037e98e4db89e093023aa4bc464": {
+    "explanation": "## What is Introduction to Neural Networks?\nA neural network is a computer system inspired by the structure and function of the human brain.\n\n## Key Concepts\n- **Concept 1**: A neural network is made up of layers of interconnected nodes called neurons.\n- **Concept 2**: Each neuron receives one or more inputs, performs a computation on those inputs, and then sends the output to other neurons.\n- **Concept 3**: The inputs to a neuron are weighted and summed, and then the output is passed through an activation function.\n- **Concept 4**: The goal of a neural network is to learn to represent complex patterns in data by adjusting the weights and connections between neurons.\n\n## How it Works (Step by Step)\n1. **Step 1**: The network is trained on a dataset of input-output pairs.\n2. **Step 2**: The network adjusts the weights and connections between neurons to minimize the error between its predictions and the actual outputs.\n3. **Step 3**: This process is repeated multiple times until the network converges to a stable solution.\n\n## Real-World Example\nImagine you're a farmer trying to predict whether it will rain tomorrow based on the weather patterns of the past few days. You can train a neural network on historical data to learn the relationships between weather patterns and rainfall, and then use it to make predictions for the next day.\n\n## Quick Tips to Remember\n- Tip 1: A neural network is like a team of experts working together to solve a problem.\n- Tip 2: Make sure to normalize your data before training a neural network, or it may not learn correctly.\n- Tip 3: Think of a neural network as a black box that takes inputs and produces outputs, and try to understand how it's making its decisions.",
+    "mermaid_diagram": "graph TD\n  A[Neural Networks] ---> B[Layers of Neurons]\n  A ---> C[Inputs and Outputs]\n  B ---> D[Weighted Sum]\n  C ---> E[Activation Function]\n  D ---> E",
+    "quiz_question": "What is the main goal of a neural network?",
+    "quiz_answer": "The main goal of a neural network is to learn to represent complex patterns in data by adjusting the weights and connections between neurons."
+  },
+  "93aec46acb6997c6f86ab4d6c92b7771": {
+    "answer": "Hello, Demo! Gravity is a force that pulls everything towards each other. Think of it like when you throw a stone into a river, it falls down into the water because the water is pulling it down. Everything on Earth is being pulled down by the Earth's gravity, that's why things fall down.",
+    "analogy": "Imagine you're standing in a wheat field on a windy day. When the wind blows, the wheat plants sway back and forth. But when the wind stops, they return to their original position. This is like how gravity pulls everything back to the ground, making things fall down.",
+    "quiz_question": "What is the main reason why things fall down?",
+    "quiz_answer": "Gravity"
   }
 }

@@ -216,6 +216,7 @@ async def api_generate_quiz(req: QuizGenerateRequest):
     """
     try:
         quiz_data = generate_quiz(
+            module_id=req.module_id,
             module_title=req.module_title,
             subject=req.subject,
             student_name=req.student_name,

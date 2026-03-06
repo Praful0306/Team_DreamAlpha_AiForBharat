@@ -71,6 +71,7 @@ class ModuleContentResponse(BaseModel):
 # ── Phase 7: Full Quiz / Test Schemas ─────────────────────────────────────────
 
 class QuizGenerateRequest(BaseModel):
+    module_id: int
     module_title: str
     subject: str
     student_name: Optional[str] = None

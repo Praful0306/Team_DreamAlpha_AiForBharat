@@ -252,165 +252,168 @@ function App() {
         <Route path="/auth/verify" element={<OTPPage />} />
 
         {/* Protected routes — wrapped with AppLayout and ProtectedRoute */}
-        {/* AUTH TEMPORARILY DISABLED — re-enable ProtectedRoute when auth is ready */}
         <Route path="*" element={
-          <AppLayout
-            language={language}
-            setLanguage={setLanguage}
-            studentProfile={studentProfile}
-            onEditProfile={() => setShowProfileModal(true)}
-          >
-            <Routes>
-              <Route path="/create" element={
-                <main className="main-container auth-page">
-                  <SubjectCreator
-                    onGenerate={handleGenerateCourse}
-                    onCancel={modules.length > 0 ? () => navigate('/dashboard') : undefined}
-                    isLoading={isLoading}
-                    t={t}
-                  />
-                </main>
-              } />
-
-              <Route path="/dashboard" element={
-                <main className="auth-page">
-                  <StudentDashboard
-                    subject={subject}
-                    modules={modules}
-                    completedModules={completedModules}
-                    testResults={testResults}
-                    onStartModule={handleStartModule}
-                    searchTopic={searchTopic}
-                    setSearchTopic={setSearchTopic}
-                    handleQuickStart={handleDashboardQuickStart}
-                    language={language}
-                    t={t}
-                    isLoading={isLoading}
-                  />
-                </main>
-              } />
-
-              <Route path="/dashboard/modules" element={
-                <main className="auth-page">
-                  <StudentDashboard
-                    subject={subject}
-                    modules={modules}
-                    completedModules={completedModules}
-                    testResults={testResults}
-                    onStartModule={handleStartModule}
-                    searchTopic={searchTopic}
-                    setSearchTopic={setSearchTopic}
-                    handleQuickStart={handleDashboardQuickStart}
-                    language={language}
-                    t={t}
-                    isLoading={isLoading}
-                  />
-                </main>
-              } />
-
-              <Route path="/dashboard/tests" element={
-                <main className="auth-page">
-                  <StudentDashboard
-                    subject={subject}
-                    modules={modules}
-                    completedModules={completedModules}
-                    testResults={testResults}
-                    onStartModule={handleStartModule}
-                    searchTopic={searchTopic}
-                    setSearchTopic={setSearchTopic}
-                    handleQuickStart={handleDashboardQuickStart}
-                    language={language}
-                    t={t}
-                    isLoading={isLoading}
-                  />
-                </main>
-              } />
-
-              {/* Module Viewer */}
-              <Route path="/module/:id" element={
-                <main className="auth-page module-layout">
-                  {activeModuleId && activeModuleContent && (
-                    <ModuleViewer
-                      moduleId={activeModuleId}
-                      title={modules.find(m => m.id === activeModuleId)?.title || "Module"}
-                      subject={subject}
-                      explanation={activeModuleContent.explanation}
-                      mermaidCode={activeModuleContent.mermaid_diagram}
-                      quizQuestion={activeModuleContent.quiz_question}
-                      quizAnswer={activeModuleContent.quiz_answer}
-                      onBack={() => navigate('/dashboard')}
-                      onPass={(id) => { if (!completedModules.includes(id)) setCompletedModules(prev => [...prev, id]); navigate('/dashboard'); }}
-                      onFail={handleModuleFail}
-                      onTakeTest={handleTakeTest}
+          <ProtectedRoute>
+            <AppLayout
+              language={language}
+              setLanguage={setLanguage}
+              studentProfile={studentProfile}
+              onEditProfile={() => setShowProfileModal(true)}
+            >
+              <Routes>
+                <Route path="/create" element={
+                  <main className="main-container auth-page">
+                    <SubjectCreator
+                      onGenerate={handleGenerateCourse}
+                      onCancel={modules.length > 0 ? () => navigate('/dashboard') : undefined}
+                      isLoading={isLoading}
                       t={t}
+                    />
+                  </main>
+                } />
+
+                <Route path="/dashboard" element={
+                  <main className="auth-page">
+                    <StudentDashboard
+                      subject={subject}
+                      modules={modules}
+                      completedModules={completedModules}
+                      testResults={testResults}
+                      onStartModule={handleStartModule}
+                      searchTopic={searchTopic}
+                      setSearchTopic={setSearchTopic}
+                      handleQuickStart={handleDashboardQuickStart}
                       language={language}
-                      isLoadingAdaptive={isLoadingAdaptive}
-                    />
-                  )}
-                </main>
-              } />
-
-              {/* Test Page */}
-              <Route path="/module/:id/test" element={
-                <main className="auth-page module-layout">
-                  {activeModuleId && (
-                    <TestPage
-                      moduleId={activeModuleId}
-                      moduleTitle={modules.find(m => m.id === activeModuleId)?.title || "Module"}
-                      subject={subject}
-                      studentProfile={studentProfile}
-                      onTestComplete={handleTestComplete}
-                      onBack={() => navigate(`/module/${activeModuleId}`)}
                       t={t}
+                      isLoading={isLoading}
                     />
-                  )}
-                </main>
-              } />
+                  </main>
+                } />
 
-              {/* Results Page */}
-              <Route path="/module/:id/results" element={
-                <main className="auth-page module-layout">
-                  {testModuleId && (
-                    <ResultsPage
-                      moduleId={testModuleId}
-                      moduleTitle={modules.find(m => m.id === testModuleId)?.title || "Module"}
-                      score={testScore}
-                      total={testTotal}
-                      questions={testQuestions}
-                      studentName={studentProfile?.name || "Student"}
-                      onRetryTest={handleRetryTest}
-                      onNextModule={handleNextModule}
-                      onBack={() => navigate(`/module/${testModuleId}`)}
+
+                <Route path="/dashboard/modules" element={
+                  <main className="auth-page">
+                    <StudentDashboard
+                      subject={subject}
+                      modules={modules}
+                      completedModules={completedModules}
+                      testResults={testResults}
+                      onStartModule={handleStartModule}
+                      searchTopic={searchTopic}
+                      setSearchTopic={setSearchTopic}
+                      handleQuickStart={handleDashboardQuickStart}
+                      language={language}
+                      t={t}
+                      isLoading={isLoading}
                     />
-                  )}
-                </main>
-              } />
+                  </main>
+                } />
 
-              <Route path="/analytics" element={
-                <main className="auth-page">
-                  <Analytics t={t} completedModules={completedModules} testResults={testResults} />
-                </main>
-              } />
+                <Route path="/dashboard/tests" element={
+                  <main className="auth-page">
+                    <StudentDashboard
+                      subject={subject}
+                      modules={modules}
+                      completedModules={completedModules}
+                      testResults={testResults}
+                      onStartModule={handleStartModule}
+                      searchTopic={searchTopic}
+                      setSearchTopic={setSearchTopic}
+                      handleQuickStart={handleDashboardQuickStart}
+                      language={language}
+                      t={t}
+                      isLoading={isLoading}
+                    />
+                  </main>
+                } />
 
-              <Route path="/charts" element={
-                <main className="auth-page">
-                  <ChartsPage testResults={testResults} completedModules={completedModules} t={t} studentProfile={studentProfile} language={language} subject={subject} />
-                </main>
-              } />
+                {/* Module Viewer */}
+                <Route path="/module/:id" element={
+                  <main className="auth-page module-layout">
+                    {activeModuleId && activeModuleContent && (
+                      <ModuleViewer
+                        moduleId={activeModuleId}
+                        title={modules.find(m => m.id === activeModuleId)?.title || "Module"}
+                        subject={subject}
+                        explanation={activeModuleContent.explanation}
+                        mermaidCode={activeModuleContent.mermaid_diagram}
+                        quizQuestion={activeModuleContent.quiz_question}
+                        quizAnswer={activeModuleContent.quiz_answer}
+                        onBack={() => navigate('/dashboard')}
+                        onPass={(id) => { if (!completedModules.includes(id)) setCompletedModules(prev => [...prev, id]); navigate('/dashboard'); }}
+                        onFail={handleModuleFail}
+                        onTakeTest={handleTakeTest}
+                        t={t}
+                        language={language}
+                        isLoadingAdaptive={isLoadingAdaptive}
+                      />
+                    )}
+                  </main>
+                } />
 
-              <Route path="/settings" element={
-                <main className="auth-page">
-                  <SettingsPage t={t} studentProfile={studentProfile} onSaveProfile={handleSaveProfile} />
-                </main>
-              } />
+                {/* Test Page */}
+                <Route path="/module/:id/test" element={
+                  <main className="auth-page module-layout">
+                    {activeModuleId !== null && (
+                      <TestPage
+                        moduleId={activeModuleId}
+                        moduleTitle={modules.find(m => m.id === activeModuleId)?.title || "Module"}
+                        subject={subject}
+                        studentProfile={studentProfile}
+                        onTestComplete={handleTestComplete}
+                        onBack={() => navigate(`/module/${activeModuleId}`)}
+                        t={t}
+                      />
+                    )}
+                  </main>
+                } />
 
-              <Route path="/pricing" element={
-                <main className="auth-page">
-                  <PricingPage t={t} />
-                </main>
-              } />
-            </Routes>
-          </AppLayout>
+                {/* Results Page */}
+                <Route path="/module/:id/results" element={
+                  <main className="auth-page module-layout">
+                    {testModuleId !== null && (
+                      <ResultsPage
+                        moduleId={testModuleId}
+                        moduleTitle={modules.find(m => m.id === testModuleId)?.title || "Module"}
+                        score={testScore}
+                        total={testTotal}
+                        questions={testQuestions}
+                        studentName={studentProfile?.name || "Student"}
+                        onRetryTest={handleRetryTest}
+                        onNextModule={handleNextModule}
+                        onBack={() => navigate(`/module/${testModuleId}`)}
+                      />
+                    )}
+                  </main>
+                } />
+
+
+                <Route path="/analytics" element={
+                  <main className="auth-page">
+                    <Analytics t={t} completedModules={completedModules} testResults={testResults} />
+                  </main>
+                } />
+
+                <Route path="/charts" element={
+                  <main className="auth-page">
+                    <ChartsPage testResults={testResults} completedModules={completedModules} t={t} studentProfile={studentProfile} language={language} subject={subject} />
+                  </main>
+                } />
+
+                <Route path="/settings" element={
+                  <main className="auth-page">
+                    <SettingsPage t={t} studentProfile={studentProfile} onSaveProfile={handleSaveProfile} />
+                  </main>
+                } />
+
+                <Route path="/pricing" element={
+                  <main className="auth-page">
+                    <PricingPage />
+                  </main>
+                } />
+              </Routes>
+            </AppLayout>
+          </ProtectedRoute>
         } />
       </Routes>
 

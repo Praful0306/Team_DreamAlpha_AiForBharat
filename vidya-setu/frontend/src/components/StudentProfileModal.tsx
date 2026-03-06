@@ -29,27 +29,32 @@ export function StudentProfileModal({ onSave, language, t }: StudentProfileModal
     return (
         <div className="modal-overlay">
             <div className="modal-content">
+                {/* Decorative Elements */}
+                <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: 'radial-gradient(circle, rgba(0,240,255,0.15) 0%, transparent 70%)', filter: 'blur(30px)', zIndex: -1 }}></div>
+                <div style={{ position: 'absolute', bottom: '-50px', left: '-50px', width: '150px', height: '150px', background: 'radial-gradient(circle, rgba(255,0,255,0.1) 0%, transparent 70%)', filter: 'blur(30px)', zIndex: -1 }}></div>
+
                 <div className="modal-header">
-                    <div className="modal-icon">👋</div>
+                    <div className="modal-icon">✨</div>
                     <h2 className="modal-title">
                         {t?.welcomeToVidyaSetu || "Welcome to Vidya-Setu!"}
                     </h2>
                     <p className="modal-subtitle">
-                        {t?.tellUsAboutYourself || "Tell us a bit about yourself so AI can personalize your lessons."}
+                        {t?.tellUsAboutYourself || "Tell us a bit about yourself so AI can personalize your unique learning path."}
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="modal-form">
                     <div className="modal-field">
                         <label className="modal-label">
-                            {t?.yourName || "Your Name"}
+                            {t?.yourName || "FULL NAME"}
                         </label>
                         <input
                             type="text"
                             required
+                            autoFocus
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder={t?.namePlaceholder || "e.g. Rahul"}
+                            placeholder={t?.namePlaceholder || "e.g. Rahul Sharma"}
                             className="modal-input"
                         />
                     </div>
@@ -57,7 +62,7 @@ export function StudentProfileModal({ onSave, language, t }: StudentProfileModal
                     <div className="modal-row">
                         <div className="modal-field">
                             <label className="modal-label">
-                                {t?.age || "Age"}
+                                {t?.age || "AGE"}
                             </label>
                             <input
                                 type="number"
@@ -66,28 +71,30 @@ export function StudentProfileModal({ onSave, language, t }: StudentProfileModal
                                 max="18"
                                 value={age}
                                 onChange={(e) => setAge(parseInt(e.target.value) || "")}
-                                placeholder="e.g. 12"
+                                placeholder="12"
                                 className="modal-input"
                             />
                         </div>
 
                         <div className="modal-field">
                             <label className="modal-label">
-                                {t?.classGrade || "Class / Grade"}
+                                {t?.classGrade || "GRADE / LEVEL"}
                             </label>
-                            <select
-                                required
-                                value={grade}
-                                onChange={(e) => setGrade(e.target.value)}
-                                className="modal-input"
-                            >
-                                <option value="" disabled>{t?.select || "Select"}</option>
-                                {[5, 6, 7, 8, 9, 10, 11, 12, "College Degree", "Researcher"].map(num => (
-                                    <option key={num} value={num.toString()}>
-                                        {typeof num === "number" ? `${t?.classPrefix || "Class"} ${num}` : (num === "College Degree" ? (t?.collegeDegree || "College Degree") : (t?.researcher || "Researcher"))}
-                                    </option>
-                                ))}
-                            </select>
+                            <div style={{ position: 'relative' }}>
+                                <select
+                                    required
+                                    value={grade}
+                                    onChange={(e) => setGrade(e.target.value)}
+                                    className="modal-input"
+                                >
+                                    <option value="" disabled>{t?.select || "Select Class"}</option>
+                                    {[5, 6, 7, 8, 9, 10, 11, 12, "College Degree", "Researcher"].map(num => (
+                                        <option key={num} value={num.toString()}>
+                                            {typeof num === "number" ? `${t?.classPrefix || "Class"} ${num}` : (num === "College Degree" ? (t?.collegeDegree || "College Degree") : (t?.researcher || "Researcher"))}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -96,7 +103,7 @@ export function StudentProfileModal({ onSave, language, t }: StudentProfileModal
                         disabled={!name.trim() || !age || !grade.trim()}
                         className="modal-submit-btn"
                     >
-                        {isKannada ? "ಪ್ರಾರಂಭಿಸಿ! 🚀" : "Let's Start! 🚀"}
+                        {isKannada ? "ಪ್ರಾರಂಭಿಸಿ! 🚀" : "Let's Start Your Journey! ✨"}
                     </button>
                 </form>
             </div>

@@ -31,7 +31,7 @@ interface StudentDashboardProps {
     isLoading?: boolean;
 }
 
-export function StudentDashboard({ subject, modules, completedModules, testResults = [], onStartModule, searchTopic = "", setSearchTopic = () => { }, handleQuickStart: externalQuickStart, language, t, isLoading = false }: StudentDashboardProps) {
+export function StudentDashboard({ subject, modules, completedModules, testResults = [], onStartModule, searchTopic = "", setSearchTopic = () => { }, handleQuickStart: externalQuickStart, t }: StudentDashboardProps) {
     const navigate = useNavigate();
     const location = useLocation();
     const activeTab = location.pathname;
@@ -123,7 +123,6 @@ export function StudentDashboard({ subject, modules, completedModules, testResul
                                     const isCompleted = completedModules.includes(mod.id);
                                     const isCurrentActive = !isCompleted &&
                                         (index === 0 || completedModules.includes(modules[index - 1].id));
-                                    const isLocked = !isCompleted && !isCurrentActive;
 
                                     if (isCompleted) {
                                         return (

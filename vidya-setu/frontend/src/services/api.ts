@@ -156,6 +156,7 @@ export interface QuizQuestionData {
 }
 
 export interface GenerateQuizRequest {
+  module_id: number;
   module_title: string;
   subject: string;
   student_name?: string;

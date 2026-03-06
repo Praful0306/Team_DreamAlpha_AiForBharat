@@ -25,7 +25,7 @@ const DIFFICULTY_LABEL: Record<string, string> = {
     advanced: '🔴 Advanced'
 };
 
-export function TestPage({ moduleId, moduleTitle, subject, studentProfile, onTestComplete, onBack, t }: TestPageProps) {
+export function TestPage({ moduleId, moduleTitle, subject, studentProfile, onTestComplete, onBack }: TestPageProps) {
     const [questions, setQuestions] = useState<QuizQuestionData[]>([]);
     const [answers, setAnswers] = useState<Record<number, string>>({});
     const [draftAnswers, setDraftAnswers] = useState<Record<number, string>>({});
@@ -41,6 +41,7 @@ export function TestPage({ moduleId, moduleTitle, subject, studentProfile, onTes
 
         setIsLoading(true);
         generateQuiz({
+            module_id: moduleId,
             module_title: moduleTitle,
             subject,
             student_name: studentProfile?.name,

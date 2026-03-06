@@ -6,14 +6,44 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Load API keys from environment variable
-chatbot_keys_str = os.getenv("CHATBOT_GROQ_KEYS", "")
-CHATBOT_API_KEYS = [k.strip() for k in chatbot_keys_str.split(",") if k.strip()]
+# Load API keys from environment variables
+# We check multiple possible variable names to be flexible
+primary_key = os.getenv("CHAT_GROQ_API_KEY", "")
+fallback_keys_str = os.getenv("CHAT_FALLBACK_GROQ_KEYS", "") or os.getenv("CHATBOT_GROQ_KEYS", "")
+fallback_list = [k.strip() for k in fallback_keys_str.split(",") if k.strip()]
 
-# Provide a fallback if not configured
-if not CHATBOT_API_KEYS and os.getenv("GROQ_API_KEY"):
-    CHATBOT_API_KEYS = [os.getenv("GROQ_API_KEY")]
+# Combine all unique keys, starting with the primary one
+ALL_API_KEYS = []
+if primary_key:
+    ALL_API_KEYS.append(primary_key)
+for key in fallback_list:
+    if key not in ALL_API_KEYS:
+        ALL_API_KEYS.append(key)
+
+# Filter out placeholder values
+CHATBOT_API_KEYS = [k for k in ALL_API_KEYS if k and not k.startswith("your_")]
+
 CHATBOT_MODEL = "llama-3.1-8b-instant"
+
+import hashlib
+
+CACHE_FILE = os.path.join(os.path.dirname(__file__), "llm_cache.json")
+
+def _get_cache():
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def _save_cache(cache_data):
+    try:
+        with open(CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(cache_data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Failed to save cache: {e}")
 
 MOCK_RESPONSES = {
     "en": {
@@ -38,7 +68,7 @@ MOCK_RESPONSES = {
 
 def ask_gemini(language: str, topic: str, question: str, student_name: str = None, student_age: int = None, student_grade: str = None) -> dict:
     if not CHATBOT_API_KEYS:
-        print("⚠️ Warning: CHATBOT_API_KEYS is missing. Returning mock.")
+        print("⚠️ Warning: No valid Chatbot API keys found in environment variables. Returning mock.")
         lang_key = language if language in MOCK_RESPONSES else "en"
         return MOCK_RESPONSES[lang_key].copy()
 
@@ -72,11 +102,17 @@ Reply ONLY with this exact JSON (no extra text before or after):
   "quiz_answer": "the correct answer"
 }}"""
 
+    # Caching logic
+    cache_key = hashlib.md5(prompt.encode("utf-8")).hexdigest()
+    cache = _get_cache()
+    if cache_key in cache:
+        print(f"✅ Using cached response for Doubt Solver (Key: {cache_key})")
+        return cache[cache_key]
+
     last_error = None
-    for api_key in CHATBOT_API_KEYS:
+    # Iterate through ALL keys until one works
+    for idx, api_key in enumerate(CHATBOT_API_KEYS):
         try:
-            # We continue to use the function name ask_gemini to avoid refactoring main.py
-            # But internally we power this with Groq via the OpenAI SDK wrapper.
             client = OpenAI(
                 api_key=api_key,
                 base_url="https://api.groq.com/openai/v1"
@@ -93,15 +129,27 @@ Reply ONLY with this exact JSON (no extra text before or after):
             
             # Extract JSON robustly
             json_match = re.search(r'\{.*\}', raw_text, re.DOTALL)
+            parsed_data = None
             if json_match:
-                return json.loads(json_match.group())
-            return json.loads(raw_text)
+                parsed_data = json.loads(json_match.group())
+            else:
+                parsed_data = json.loads(raw_text)
+
+            if parsed_data:
+                print(f"✅ Success using Chatbot API key index {idx}")
+                # Save to cache
+                cache = _get_cache()
+                cache[cache_key] = parsed_data
+                _save_cache(cache)
+                return parsed_data
             
         except Exception as e:
-            print(f"⚠️ Chatbot API failed on key {api_key[:8]}... Error: {e}. Trying next...")
+            msg = str(e)
+            shorthand = msg[:50] + "..." if len(msg) > 50 else msg
+            print(f"⚠️ Key index {idx} failed: {shorthand}. Trying next...")
             last_error = e
             continue
             
-    print(f"⚠️ All Chatbot API keys failed. Last error: {last_error}. Returning mock fallback response.")
+    print(f"❌ All {len(CHATBOT_API_KEYS)} Chatbot API keys failed. Returning mock fallback.")
     lang_key = language if language in MOCK_RESPONSES else "en"
     return MOCK_RESPONSES[lang_key].copy()
