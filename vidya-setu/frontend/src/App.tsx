@@ -22,6 +22,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { SettingsPage } from "./pages/SettingsPage";
 import { PricingPage } from "./pages/PricingPage";
 import { ChartsPage } from "./pages/ChartsPage";
+import { ActivatePathHub } from "./pages/ActivatePathHub";
 
 export interface TestResult {
   moduleId: number;
@@ -390,7 +391,13 @@ function App() {
 
                 <Route path="/analytics" element={
                   <main className="auth-page">
-                    <Analytics t={t} completedModules={completedModules} testResults={testResults} />
+                    <Analytics t={t} completedModules={completedModules} testResults={testResults} studentProfile={studentProfile} />
+                  </main>
+                } />
+
+                <Route path="/learning-path" element={
+                  <main className="auth-page">
+                    <ActivatePathHub subject={subject} modules={modules} completedModules={completedModules} onStartModule={handleStartModule} />
                   </main>
                 } />
 

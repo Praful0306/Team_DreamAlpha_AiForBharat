@@ -2396,6 +2396,46 @@ select.modal-input {
   }
 }
 
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
+  }
+}
+
+@keyframes neural-orbit {
+  0% {
+    transform: rotate(0deg) translateX(10px) rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg) translateX(10px) rotate(-360deg);
+  }
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(-100px) translateX(20px);
+    opacity: 0;
+  }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
   opacity: 0;
@@ -2560,4 +2600,197 @@ select.modal-input {
     flex-wrap: wrap !important;
     gap: 8px !important;
   }
+}
+
+/* ==========================================================================
+   STELLAR CONSTELLATION & NEURAL PATH HUB
+   ========================================================================== */
+
+@keyframes star-parallax {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-1000px);
+  }
+}
+
+@keyframes nebula-pulse {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes quantum-flow {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.3;
+  }
+}
+
+@keyframes stellar-halo {
+  0% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.2);
+  }
+
+  100% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  }
+}
+
+.stellar-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  z-index: 0;
+  background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+  overflow: hidden;
+}
+
+.star-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, #fff, rgba(0, 0, 0, 0)),
+    radial-gradient(1.5px 1.5px at 10% 70%, #fff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 80% 40%, #fff, rgba(0, 0, 0, 0)),
+    radial-gradient(1.2px 1.2px at 50% 50%, #fff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 90% 90%, #fff, rgba(0, 0, 0, 0));
+  background-size: 400px 400px;
+  animation: star-parallax 120s linear infinite;
+  pointer-events: none;
+}
+
+.star-layer.slow {
+  animation-duration: 240s;
+  opacity: 0.4;
+}
+
+.star-layer.fast {
+  animation-duration: 80s;
+  opacity: 0.7;
+}
+
+.nebula-glow {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, rgba(180, 0, 255, 0.1) 40%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: nebula-pulse 20s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.quantum-trail {
+  stroke-dasharray: 10;
+  stroke: url(#quantum-gradient);
+  animation: quantum-flow 5s infinite linear;
+  filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.4));
+  opacity: 0.6;
+}
+
+.stellar-node {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  backdrop-filter: blur(15px);
+  z-index: 5;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.stellar-node::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, transparent, rgba(0, 240, 255, 0.3), transparent);
+  animation: stellar-halo 6s infinite ease-in-out;
+  z-index: -1;
+}
+
+.stellar-node:hover {
+  transform: scale(1.18) translateY(-8px);
+  border-color: var(--cyan);
+  box-shadow: 0 15px 40px rgba(0, 240, 255, 0.4);
+}
+
+.stellar-node.active {
+  background: var(--cyan);
+  border-color: #fff;
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.6);
+  color: #000;
+}
+
+.stellar-node.completed {
+  border-color: #00ff80;
+  box-shadow: 0 0 30px rgba(0, 255, 128, 0.2);
+}
+
+.stellar-label {
+  position: absolute;
+  bottom: -45px;
+  width: 180px;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.stellar-node:hover .stellar-label {
+  color: #fff;
+  transform: translateY(5px);
+}
+
+.hud-panel {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 240, 255, 0.02);
 }
