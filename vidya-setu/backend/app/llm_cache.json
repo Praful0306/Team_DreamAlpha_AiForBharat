@@ -129,5 +129,63 @@
     "mermaid_diagram": "graph TD\n  A[Neural Network] ---> B[Layers of Neurons]\n  A ---> C[Input Data]\n  B ---> D[Computation]\n  D ---> E[Output]\n  E ---> F[Next Layer]",
     "quiz_question": "What is the main goal of a neural network?",
     "quiz_answer": "The main goal of a neural network is to learn to make accurate predictions or decisions by adjusting the connections between neurons."
+  },
+  "fc6457f36acbc689df5b6d42d317ccde": {
+    "modules": [
+      {
+        "id": 1,
+        "title": "Module 1: Introduction to C++",
+        "description": "Learn the basics of C++ programming language, including variables, data types, operators, and control structures."
+      },
+      {
+        "id": 2,
+        "title": "Module 2: Functions, Arrays, and Vectors",
+        "description": "Understand how to write reusable functions, work with arrays and vectors, and learn about memory management."
+      },
+      {
+        "id": 3,
+        "title": "Module 3: Object-Oriented Programming (OOP) Concepts",
+        "description": "Learn the fundamentals of object-oriented programming, including classes, objects, inheritance, polymorphism, and encapsulation."
+      },
+      {
+        "id": 4,
+        "title": "Module 4: File Input/Output, Exception Handling, and Debugging",
+        "description": "Understand how to read and write files, handle exceptions, and debug C++ programs using various tools and techniques."
+      },
+      {
+        "id": 5,
+        "title": "Module 5: Advanced Topics and Project Development",
+        "description": "Learn advanced C++ concepts, such as templates, operator overloading, and multithreading, and apply them to develop a real-world project."
+      }
+    ]
+  },
+  "0d8783421dadedc6f00254a620ce91ad": {
+    "modules": [
+      {
+        "id": 1,
+        "title": "Module 1: Introduction to Cloud Computing and AWS",
+        "description": "Understanding the basics of cloud computing, benefits of cloud services, and an overview of Amazon Web Services (AWS)"
+      },
+      {
+        "id": 2,
+        "title": "Module 2: AWS Fundamentals - Setting up AWS Account and Navigation",
+        "description": "Creating an AWS account, navigating the AWS Management Console, and understanding the AWS services and features"
+      },
+      {
+        "id": 3,
+        "title": "Module 3: AWS Core Services - S3, EC2, and VPC",
+        "description": "Understanding the core AWS services, including S3 for storage, EC2 for compute, and VPC for virtual networking"
+      },
+      {
+        "id": 4,
+        "title": "Module 4: AWS Security, Identity, and Compliance",
+        "description": "Understanding AWS security features, including IAM, Cognito, and AWS Config, as well as compliance and governance"
+      },
+      {
+        "id": 5,
+        "title": "Module 5: AWS Best Practices and Hands-on Experience",
+        "description": "Learning best practices for using AWS, including cost optimization, scalability, and high availability, with hands-on experience"
+      }
+    ]
   }
 }

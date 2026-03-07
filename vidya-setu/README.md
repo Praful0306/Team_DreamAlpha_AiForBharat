@@ -20,18 +20,16 @@ Vidya-Setu helps rural Indian school students learn school subjects (Physics, Ma
 
 ---
 
-## 🏗️ Architecture
-
-```
-Student (Phone Browser)
+Student (Mobile Browser)
         ↓
-React PWA Frontend   [Vercel]
+AWS Amplify (Hosting)  [Vite React PWA]
         ↓  POST /api/ask
-FastAPI Backend      [Render]
-    ↓              ↓
-Amazon Bedrock   Bhashini API
-(Claude 3.5)     (NMT/ASR/TTS)
-```
+AWS API Gateway (Interface)
+        ↓
+AWS Lambda (Compute) [FastAPI + Mangum]
+    ↓              ↓              ↓
+Amazon Bedrock   Amazon DynamoDB   Bhashini API
+(LLM Engines)    (Schema-less DB)  (Translation)
 
 ---
 
@@ -112,10 +110,13 @@ vidya-setu/
 | Layer | Technology |
 |-------|-----------|
 | Frontend | React + TypeScript (Vite), PWA |
-| Backend | Python + FastAPI |
-| AI/LLM | Amazon Bedrock (Claude 3.5 Sonnet) |
+| Hosting | AWS Amplify |
+| Compute | AWS Lambda (FastAPI + Mangum) |
+| API Layer | AWS API Gateway |
+| Database | Amazon DynamoDB (Serverless) |
+| AI/LLM | Amazon Bedrock (Llama 3.1 70B & Mistral 7B) |
 | Language | Bhashini API (NMT) |
-| Deployment | Vercel (frontend) + Render (backend) |
+| Deployment | CI/CD via AWS Amplify & Lambda |
 
 ---
 

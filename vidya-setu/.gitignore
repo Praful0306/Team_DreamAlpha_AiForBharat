@@ -23,6 +23,9 @@ env/
 build/
 *.egg-info/
 dist/
+*.zip
+staging_lambda*/
+build_lambda*/
 
 # Testing
 .pytest_cache/

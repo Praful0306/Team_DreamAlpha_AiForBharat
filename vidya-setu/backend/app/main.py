@@ -19,6 +19,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+from mangum import Mangum
 from app.schemas import (
     AskRequest,
     KnowledgeCardResponse,
@@ -33,6 +34,8 @@ from app.schemas import (
 )
 from app.gemini_client import ask_gemini
 from app.groq_client import generate_course_outline, generate_module_content, generate_quiz
+from app.bedrock_client import generate_module_content_bedrock
+from app.bedrock_chat_client import ask_bedrock_doubt_solver
 from app.bhashini_client import translate_text
 
 load_dotenv()
@@ -45,6 +48,10 @@ app = FastAPI(
     description="Backend for Vidya-Setu – AI tutor for rural Indian students.",
     version="1.0.0",
 )
+
+# ── AWS Lambda Handler ───────────────────────────────────────────────────────
+# Mangum allows FastAPI to run on AWS Lambda + API Gateway.
+handler = Mangum(app)
 
 @app.get("/")
 async def root():
@@ -59,11 +66,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         FRONTEND_URL,
-        "http://localhost:5173",   # Vite dev server
+        "http://localhost:5173",
         "http://localhost:5174",
-        "http://localhost:3000",   # create-react-app dev
+        "https://main.d2xlz7oxt7z5q.amplifyapp.com", # Example Amplify URL (will update)
     ],
-    allow_origin_regex=r"https://.*\.(vercel\.app|netlify\.app)",  # deployed frontends
+    allow_origin_regex=r"https://.*\.amplifyapp\.com", # Match any AWS Amplify deployment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -106,8 +113,8 @@ async def ask_question(request: AskRequest):
             target_lang="en"
         )
 
-    # Step 2 & 3: Call Gemini with the question
-    card_data = ask_gemini(
+    # Step 2 & 3: Call Bedrock instead of Gemini/Groq
+    card_data = ask_bedrock_doubt_solver(
         language=request.language,
         topic=request.topic,
         question=question_in_english,
@@ -189,7 +196,7 @@ async def api_generate_module(req: ModuleContentRequest):
     If failed_attempts > 0, it dynamically adapts the explanation to be simpler.
     """
     try:
-        content_data = generate_module_content(
+        content_data = generate_module_content_bedrock(
             module_id=req.module_id,
             module_title=req.title,
             subject=req.subject,
