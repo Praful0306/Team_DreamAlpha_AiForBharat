@@ -1,17 +1,18 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - cd vidya-setu
-        - npm install
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: vidya-setu/dist
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - vidya-setu/node_modules/**/*
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+    appRoot: vidya-setu
