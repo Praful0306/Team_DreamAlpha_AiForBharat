@@ -1,0 +1,8 @@
+[
+  "tests/test_api.py::test_ask_english_question",
+  "tests/test_api.py::test_ask_kannada_question",
+  "tests/test_api.py::test_empty_question_rejected",
+  "tests/test_api.py::test_health_check",
+  "tests/test_api.py::test_quiz_correct_answer",
+  "tests/test_api.py::test_quiz_wrong_answer"
+]
